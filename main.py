@@ -1,29 +1,30 @@
 import metro
 from datetime import datetime
 import discord
-import math
 from discord.ext import commands
 
 
 bot = commands.Bot(command_prefix = "!")
 
-metroToken = None
+metroToken = "88f3c3e5-da3c-3d98-9ae0-118823aecba4"
 lastTime = datetime.now()
-
 
 def updateToken():
   global metroToken
-  metroToken = "821a30a8-47cd-3abc-a0df-286c933e2a7f";
-  return metroToken
-
-def updateToken2():
-  global metroToken
   global lastTime 
   now = datetime.now()
-  if(lastTime == None or (math.fabs((now - lastTime).total_seconds()) > 3600)):
+  print(now)
+  if(lastTime != None and (now - lastTime).total_seconds() > 3600):
     metroToken = metro.generate_token()
     lastTime = now
+  if(lastTime == None):
+    lastTime = now
+  print(metroToken)
   return metroToken
+  
+
+def isMetroOpen():
+  return True
 
 
 @bot.event
@@ -34,23 +35,24 @@ async def on_start():
 @bot.command()
 async def info(ctx):
   res = ""
-  await ctx.send("commands")
-  await ctx.send("!getTrip `ID da estacao`")
   for id in metro.station_codes():
     res = res + id + ", "
-  await ctx.send("info")
-  await ctx.send("All station ids: " + res)
+  await ctx.send("commands\n" + "!getTrip `ID da estacao`" + 
+                 "info" + "All station ids: " + res)
 
 
 @bot.command()
 async def getTrip(ctx, arg1):
-  await ctx.send(metro.request_time(arg1, updateToken()))
-  
+  if(isMetroOpen):
+    await ctx.send(metro.request_time(arg1, updateToken()))
+  else:
+    await ctx.send("Metro is closed reopens at 6.30h")
+
 
 @bot.command()
 async def getToken(ctx):
   await ctx.send(updateToken())
   
 
-token=("OTY3MTkzMTY0ODQ4OTg4MzAw.YmMu1A.HXH6eBV7P-NgLwvwcEQthaZy7WY")
+token=("OTY3MTkzMTY0ODQ4OTg4MzAw.YmMu1A.oIglNeLgyKa_R2C0ypvzScW8qjs")
 bot.run(token)
