@@ -6,7 +6,7 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix = "!")
 
-metroToken = "88f3c3e5-da3c-3d98-9ae0-118823aecba4"
+metroToken = metro.generate_token()
 lastTime = datetime.now()
 
 def updateToken():
@@ -54,5 +54,5 @@ async def getToken(ctx):
   await ctx.send(updateToken())
   
 
-token=("OTY3MTkzMTY0ODQ4OTg4MzAw.YmMu1A.oIglNeLgyKa_R2C0ypvzScW8qjs")
+token=("OTY3MTkzMTY0ODQ4OTg4MzAw.YmMu1A.WpmuVSHnR4vGzMjYAU8SrAB_ORI")
 bot.run(token)
