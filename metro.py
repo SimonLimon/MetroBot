@@ -13,6 +13,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # WIP - maybe dictionary for -help? and add names
 station_id_codes = ['AM','AF','AH','AL','AS','AX','AN','AE','AR','AV','BC','BV','CR','CS','CG','CP','CA','CH','CU','CM','EC','IN','JZ','LA','LU','MP','MM','OD','OL','OS','OR','PA','PI','PO','PE','QC','RA','RE','RM','RO','SA','SP','SS','SR','TE','TP','MO','EN','AP','RB']
 
+station_names = ["ALAMEDA", "ALFORNELOS", "ALTO DOS MOINHOS", "ALVALADE", "AMADORA ESTE", "AMEIXOEIRA", "ANJOS", "AREEIRO" ,"ARROIS", "AVENIDA", "BAIXA CHIADO", "BELA VISTA","CABO RUIVO", "CAIS DO SODRE", "CAMPO GRANDE", "CAMPO PEQUENO", "CARNIDE", "CHELAS", "CIDADE UNIVERSITARIA", "COLEGIO MILITAR", "ENTRE CAMPOS", "INTENDENTE", "JARDIM ZOOLOGICO", "LARANJEIRAS", "LUMIAR", "MARQUES DE POMBAL", "MARTIM MONIZ", "ODIVELAS", "OLIVAIS", "OLAIAS", "ORIENTE", "PARQUE", "PICOAS", "PONTINHA", "PRACA DE ESPANHA", "QUINTA CONCHAS", "RATO", "RESTAURADORES", "ROMA", "ROSSIO", "SALDANHA", "SANTA APOLONIA", "SAO SEBASTIAO", "SENHOR ROUBADO", "TELHEIRAS", "TERREIRO DO PACO", "MOSCAVIDE", "ENCARNACAO", "AEROPORTO", "REBOLEIRA"]
+
 destinations = {
   33:'Reboleira',
   34:'Amadora Este',
@@ -39,10 +41,6 @@ destinations = {
   59:'Moscavide',
   60:'Aeroporto'
 }
-
-
-def station_codes():
-  return station_id_codes
 
 
 def generate_token():
@@ -110,5 +108,5 @@ def request_time(station_id_code, token):
   if not error:
     response = request(token, station_id_code)
     print(response)
-    return format(response)
+    return station_names[station_id_codes.index(station_id_code)] + ": \n" + format(response)
   return 'Error! ' + station_id_code + ' is not a station id code'

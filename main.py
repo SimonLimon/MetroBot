@@ -23,7 +23,8 @@ def updateToken():
 
 
 def isMetroOpen():
-    return True
+    now = datetime.now()
+    return not (now.hour() <= 6 and now.hour() > 1)
 
 
 @bot.event
@@ -34,16 +35,18 @@ async def on_start():
 @bot.command()
 async def info(ctx):
     res = ""
-    for id in metro.station_codes():
-        res = res + id + ", "
-    await ctx.send("commands\n" + "!getTrip `ID da estacao`" + "info" +
-                   "All station ids: " + res)
+    stations_codes = metro.station_id_codes
+    stations_names = metro.station_names
+    for id in range(len(stations_codes)):
+        res = res + stations_codes[id] + ": " + stations_names[id] + "\n"
+    await ctx.send("commands\n" + "!getTrip `ID da estacao`\n" +
+                   "All station ids: \n" + res)
 
 
 @bot.command()
 async def getTrip(ctx, arg1):
     if (isMetroOpen):
-        await ctx.send(metro.request_time(arg1, updateToken()))
+        await ctx.send(metro.request_time(arg1.upper(), updateToken()))
     else:
         await ctx.send("Metro is closed reopens at 6.30h")
 
@@ -55,5 +58,5 @@ async def getToken(ctx):
 
 keep_alive()
 
-token = ("OTY3MTkzMTY0ODQ4OTg4MzAw.YmMu1A.mY0eOuYLEjP3dmhcnUsW6sQSaT8")
+token = ("OTY3MTkzMTY0ODQ4OTg4MzAw.YmMu1A.SyN8CIJxhoBea0WOTSgVVLd5-aY")
 bot.run(token)
